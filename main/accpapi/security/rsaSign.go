@@ -13,7 +13,7 @@ import (
 
 // RsaSign 签名处理
 func RsaSign(privateKey string, hashedBody []byte) (string, error) {
-	privateKey = "-----BEGIN PRIVATE KEY-----\n" + privateKey + "\n-----END PRIVATE KEY-----\n"
+	privateKey = "-----BEGIN PRIVATE KEY-----\n" + privateKey + "\n-----END PRIVATE KEY-----"
 	//fmt.Println(privateKey)
 	// 解码私钥
 	block, _ := pem.Decode([]byte(privateKey))
@@ -44,7 +44,7 @@ func RsaSign(privateKey string, hashedBody []byte) (string, error) {
 }
 
 // CheckRsaSign 签名验证
-func CheckRsaSign(publicKey string, hashedBody []byte, signedStr string) (bool, error) {
+func CheckRsaSign(publicKey string, hashedBody []byte, signature string) (bool, error) {
 	publicKey = "-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----\n"
 	// 解码公钥
 	block, _ := pem.Decode([]byte(publicKey))
@@ -65,10 +65,10 @@ func CheckRsaSign(publicKey string, hashedBody []byte, signedStr string) (bool, 
 	}
 
 	// 解码已签名的字符串
-	signature, _ := hex.DecodeString(signedStr)
+	signatureByte, _ := hex.DecodeString(signature)
 
 	// 验证签名
-	err = rsa.VerifyPKCS1v15(rsaPubKey, crypto.MD5, hashedBody, signature)
+	err = rsa.VerifyPKCS1v15(rsaPubKey, crypto.MD5, hashedBody, signatureByte)
 	if err != nil {
 		return false, fmt.Errorf("签名验证失败：%v", err)
 	}

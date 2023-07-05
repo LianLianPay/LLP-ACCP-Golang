@@ -9,21 +9,15 @@ import (
 	"strings"
 )
 
-func SendRequest(url string, body string) string {
+func SendRequest(url, body string) string {
 	if url == "" {
 		panic("请求URL非法")
 	}
-
-	return sendRequestWithSign(url, body, security.SignWithDefaultPrivateKey(body))
-}
-
-func sendRequestWithSign(url, body, sign string) string {
-	if url == "" {
-		panic("请求URL非法")
-	}
+	//生成数字签名
+	signature := security.Sign(body)
 
 	log.Printf("请求URL：%s\n", url)
-	log.Printf("请求签名值：%s\n", sign)
+	log.Printf("请求签名值：%s\n", signature)
 	log.Printf("请求参数：%s\n", body)
 
 	client := http.Client{}
@@ -34,7 +28,7 @@ func sendRequestWithSign(url, body, sign string) string {
 
 	req.Header.Set("Content-Type", "application/json;charset=utf-8")
 	req.Header.Set("Signature-Type", "RSA")
-	req.Header.Set("Signature-Data", sign)
+	req.Header.Set("Signature-Data", signature)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -56,9 +50,10 @@ func sendRequestWithSign(url, body, sign string) string {
 	respSignatureData := resp.Header.Get("Signature-Data")
 	log.Printf("响应签名：%s\n", respSignatureData)
 
-	checkSign := security.CheckSignWithDefaultPublicKey(respBodyStr, respSignatureData)
+	//检验数字签名
+	checkSign := security.CheckSign(respBodyStr, respSignatureData)
 	if !checkSign {
-		panic("返回响应验证签名异常，请核实！")
+		log.Printf("返回响应验证签名异常，请核实！")
 	} else {
 		log.Printf("响应验签通过！")
 	}

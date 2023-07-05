@@ -12,7 +12,8 @@ func TradeCreate() {
 	// 用户充值
 	//userTopup();
 	// 普通消费
-	generalConsume()
+	result := generalConsume()
+	fmt.Println(result)
 }
 
 // 普通消费
@@ -61,6 +62,7 @@ func generalConsume() string {
 
 	// 测试环境URL
 	url := "https://accpapi-ste.lianlianpay-inc.com/v1/txn/tradecreate"
+	url = "http://localhost:8086/accpapi/v1/txn/tradecreate"
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {
 		fmt.Println("转换对象失败:", err)
@@ -76,6 +78,5 @@ func generalConsume() string {
 		fmt.Println("反序列化失败:", err)
 		return ""
 	}
-	fmt.Println(resultJsonStr)
 	return resultJsonStr
 }
