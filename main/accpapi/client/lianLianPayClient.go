@@ -15,9 +15,11 @@ func SendRequest(url, body string) string {
 	}
 	//生成数字签名
 	signature := security.Sign(body)
+	log.Printf("11请求签名值：%s\n", signature)
+	signature = security.Handle(body)
 
 	log.Printf("请求URL：%s\n", url)
-	log.Printf("请求签名值：%s\n", signature)
+	log.Printf("22请求签名值：%s\n", signature)
 	log.Printf("请求参数：%s\n", body)
 
 	client := http.Client{}

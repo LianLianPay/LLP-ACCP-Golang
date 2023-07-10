@@ -11,8 +11,8 @@ import (
 	"fmt"
 )
 
-// RsaSign 签名处理
-func RsaSign(privateKey string, hashedBody []byte) (string, error) {
+// 签名处理
+func RsaSign(privateKey string, hashedSource []byte) (string, error) {
 	privateKey = "-----BEGIN PRIVATE KEY-----\n" + privateKey + "\n-----END PRIVATE KEY-----"
 	//fmt.Println(privateKey)
 	// 解码私钥
@@ -34,7 +34,7 @@ func RsaSign(privateKey string, hashedBody []byte) (string, error) {
 	}
 
 	// 使用RSA私钥进行签名
-	signature, err := rsa.SignPKCS1v15(rand.Reader, rsaPriKey, crypto.MD5, hashedBody)
+	signature, err := rsa.SignPKCS1v15(rand.Reader, rsaPriKey, crypto.MD5, hashedSource)
 	if err != nil {
 		return "", fmt.Errorf("无法签名摘要：%v", err)
 	}
@@ -44,7 +44,7 @@ func RsaSign(privateKey string, hashedBody []byte) (string, error) {
 }
 
 // CheckRsaSign 签名验证
-func CheckRsaSign(publicKey string, hashedBody []byte, signature string) (bool, error) {
+func CheckRsaSign(publicKey string, hashedSource []byte, signature string) (bool, error) {
 	publicKey = "-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----\n"
 	// 解码公钥
 	block, _ := pem.Decode([]byte(publicKey))
@@ -68,7 +68,7 @@ func CheckRsaSign(publicKey string, hashedBody []byte, signature string) (bool, 
 	signatureByte, _ := hex.DecodeString(signature)
 
 	// 验证签名
-	err = rsa.VerifyPKCS1v15(rsaPubKey, crypto.MD5, hashedBody, signatureByte)
+	err = rsa.VerifyPKCS1v15(rsaPubKey, crypto.MD5, hashedSource, signatureByte)
 	if err != nil {
 		return false, fmt.Errorf("签名验证失败：%v", err)
 	}

@@ -1,7 +1,6 @@
 package test
 
 import (
-	"LLP-ACCP-Go/main/accpapi/config"
 	"crypto"
 	"crypto/md5"
 	"crypto/rand"
@@ -15,15 +14,11 @@ import (
 )
 
 const (
-	serverPrivate = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJJL8OLB0J/9pmzHFxpwOeigamHd3Yk6PkZdaL6reDOdlq5mOQ0/xIqXcnaWI/Q7qtT9j/b34hR74ZMyEw4Um5mbWG0C0qK7l6RbQaUExbF/gU+RiVCQ8TQW1qgw/eBh+H47Aj58hGulbfJKfeZJydzpnvTSdT9VitGR9xIJtKdHAgMBAAECgYBMmbzATnE5RGu+qyP6sOZxWoU5Rx03PCrdVw2AQHIIvKvoFxgqSshTNOc3Fngu6osRSM73pmVXCmJbWy3FAp9Rqg2FZfQoX+ds4cnj3QVpeILw6b2Sr0rI2OBkbXGFre/crM+JcjYBAkV7pnwcWRH3EyOvzLUqKs5qEkOycxTi8QJBAOUFVS8ipCnp7Qaynig6PcfJC0JP4GxpFmQu0w1OrmlzP/zezUfRwihTx1NPssJm9HD7KNiBDlgFj0PQJkGbB18CQQCjh90kBAoloAsCxe/qD4w7lbre75P16Kicb+K0FCeJsZrdXpApFhlDo60zPNUJEPph9HFptZfNBE8I8dIesHEZAkEAxe4V8Oa/ennxoBg/GAU936yhTm46R3eLIopVXOrjUb+JTcJBKBDg/Hlri1UV6W2RVRO7+WGQRAKKDtGWPpz9gQJAImZAFIVtBQEnj8vHbfsbSqVyi9blzwLEBTRcAfmDX6mmpA5yUNI/OkVB99dCEQgrQ1PCT7RNXGkdnwoPYzlGcQJBAJQQrWM8SxovyqcN7Md2wRvIjA1Ny7OJGSR8y+0eu/D0GydQbUj1rNdPX5CLNFVwvcgMwkLNUD+u+JSol5+PQHk="
-	serverPublic  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDopTeLUex6TWL0ga2vw83m3pqAIhrRnmsWvqnm8fztmAHVBTyPsUyk19hE8qksxn28V6Zkmse7VznaGt7smhZ4SkRkby3atZE0k7u6ubOoE68sVR9putj8vD8NLCnLrldAsbcZK8VMxkDfkEsX/k8jQL+a2Iv2sr7A4FnQd3EamwIDAQAB"
+	publicKey  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCeRsyfEMUo6PFs7upFQJr15CUveSDVvWAg8KRXz1fU5XwBgc6d2YY7ly3QeuKz7_rd5nlXlUxnMzT2dVhTPfNEI1Q4AnNbFxqhNN3gEeTUlIh1lBXdfoWOsOOb3LHs0124BgTViTRjDW-1CmJk-vqGq-maOaA7BcXRlt8kMecJdwIDAQAB"
+	privateKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJ5GzJ8QxSjo8Wzu6kVAmvXkJS95INW9YCDwpFfPV9TlfAGBzp3ZhjuXLdB64rPv-t3meVeVTGczNPZ1WFM980QjVDgCc1sXGqE03eAR5NSUiHWUFd1-hY6w45vcsezTXbgGBNWJNGMNb7UKYmT6-oar6Zo5oDsFxdGW3yQx5wl3AgMBAAECgYBedfCfKjoQ3V1g3wHQDOuuvtd2irsO9TPO1O-wPF22ALPOjnMKgAz9uY8tMnnkW-AD2Q4oOEFeAhCk2om5PGrXGThggJNKRrqYeeyKDtGdtdnp8Za9nI1jeVz-LeNNQHNPhIuhR5z8ufDaWVCm7sNcGyIbP_qg2SErg3yJpypcIQJBAN3trJ_z-McAmV6o_xJm5mk094tols74Ix59F60i0mB4VWdFY3M9fHjIvCKKavkGb4szl4FAiklsKO5myb64eCcCQQC2k3PV7dPiTs1_HDyP6ZuFTfuPT_r7llj8PSQXQPXCJb5o-oKXTsex06C8J6R0EpXCiBZhmWFe-Hqb1nIAU-YxAkBsQp8tQDShz1cB6GrVrUDFHcOMTC8VM9Ld8qP0H8KEsO7oe97xvpLT0QiFyQQ6CrurKjXEJZnQC2VENvw_f3mNAkAbkwWJp9O6eEBdFDypV5TfezmlGWVEnh5uaiWLRYpYei7Z2AvlIkbSuq2p_Sq_RRdNPBR1RR8JoumRo7-wAPvhAkBCm_ylQbGV8McWqzjnlFKd5Fz5SDrTYAC-xJcQ433jiFxAVseWKTpOYb7XR4AhDXSk7GFLseQMv-IdnR5fh7yx"
 )
 
-func Handle() {
-
-	private := config.MerchantPrivateKey
-	public := serverPublic
-
+func main() {
 	m := make(map[string]string)
 	m["param1"] = "参数1_/+-"
 	m["param2"] = "参数2"
@@ -31,20 +26,20 @@ func Handle() {
 
 	fmt.Println("签名前的数据:", m)
 
-	if err := signData(m, private); err != nil {
+	if err := signData(m); err != nil {
 		fmt.Println(err.Error())
 	}
 
 	fmt.Println("签名后的数据:", m)
 
-	if err := verifyData(m, public); err != nil {
+	if err := verifyData(m); err != nil {
 		fmt.Println("验签结果(公钥验签):", "失败", err)
 	} else {
 		fmt.Println("验签结果(公钥验签):", "成功")
 	}
 }
 
-func signData(m map[string]string, private string) error {
+func signData(m map[string]string) error {
 
 	m["timestamp"] = fmt.Sprintf("%d", time.Now().UnixNano()/1e6)
 
@@ -60,7 +55,7 @@ func signData(m map[string]string, private string) error {
 		return err
 	}
 
-	if out, err := RsaSignWithMd5(quUrl, private); err != nil {
+	if out, err := RsaSignWithMd5(quUrl, privateKey); err != nil {
 		return err
 	} else {
 		m["sig"] = out
@@ -68,7 +63,7 @@ func signData(m map[string]string, private string) error {
 	}
 }
 
-func verifyData(m map[string]string, public string) error {
+func verifyData(m map[string]string) error {
 	sign := m["sig"]
 	delete(m, "sig")
 
@@ -80,7 +75,7 @@ func verifyData(m map[string]string, public string) error {
 	//进行转码使之可以安全的用在URL查询里
 	quUrl, _ := url.QueryUnescape(sig.Encode())
 
-	return RsaVerifySignWithMd5(quUrl, sign, public)
+	return RsaVerifySignWithMd5(quUrl, sign, publicKey)
 }
 
 // 签名
