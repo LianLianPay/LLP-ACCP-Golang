@@ -1,14 +1,16 @@
 package txn
 
 /**
- * 支付统一创单 响应参数
+ * 提现申请 响应参数
  */
-type TradeCreateResult struct {
+type WithDrawalResult struct {
 	RetCode     string  `json:"ret_code"`
 	RetMsg      string  `json:"ret_msg"`
 	OidPartner  string  `json:"oid_partner"`
 	UserID      string  `json:"user_id"`
-	TotalAmount float64 `json:"total_amount"`
 	TxnSeqNo    string  `json:"txn_seqno"`
+	TotalAmount float64 `json:"total_amount"`
+	FeeAmount   float64 `json:"fee_amount"`
 	AccpTxNo    string  `json:"accp_txno"`
+	Token       string  `json:"token"`
 }

@@ -1,14 +1,14 @@
-package txn
+package refund
 
 /**
- * 支付统一创单 响应参数
+ * 退款申请 响应参数
  */
-type TradeCreateResult struct {
+type MorePayeeRefundResult struct {
 	RetCode     string  `json:"ret_code"`
 	RetMsg      string  `json:"ret_msg"`
 	OidPartner  string  `json:"oid_partner"`
 	UserID      string  `json:"user_id"`
-	TotalAmount float64 `json:"total_amount"`
 	TxnSeqNo    string  `json:"txn_seqno"`
+	TotalAmount float64 `json:"total_amount"`
 	AccpTxNo    string  `json:"accp_txno"`
 }

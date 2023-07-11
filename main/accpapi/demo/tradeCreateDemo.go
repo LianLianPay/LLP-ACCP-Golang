@@ -21,7 +21,7 @@ func generalConsume() string {
 	params := txn.TradeCreateParams{}
 	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
-	//params.Timestamp = "20230704145205"
+	//params.Timestamp = "111"
 	params.OidPartner = config.OidPartner
 	// 普通消费
 	params.TxnType = "GENERAL_CONSUME"

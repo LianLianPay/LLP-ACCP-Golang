@@ -1,7 +1,10 @@
 package txn
 
+/**
+ * 支付统一创单 请求参数
+ */
 type TradeCreateParams struct {
-	Timestamp  string `json:"times_tamp"`
+	Timestamp  string `json:"timestamp"`
 	OidPartner string `json:"oid_partner"`
 	TxnType    string `json:"txn_type"`
 	UserID     string `json:"user_id"`
