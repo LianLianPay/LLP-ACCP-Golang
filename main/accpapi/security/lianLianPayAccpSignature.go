@@ -38,3 +38,14 @@ func md5Digest(str string) []byte {
 	hash.Write([]byte(str))
 	return hash.Sum(nil)
 }
+
+// 测试环境使用连连公钥加密密码
+func LocalEncrypt(sourceStr string) string {
+	publicKey := config.LLianPayPublicKey
+	encrypted, err := encrypt(publicKey, sourceStr)
+	if err != nil {
+		fmt.Println("本地RSA加密异常", err)
+		return ""
+	}
+	return encrypted
+}

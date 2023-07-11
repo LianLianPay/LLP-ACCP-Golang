@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/pem"
+	"errors"
 	"fmt"
 )
 
@@ -74,4 +75,32 @@ func CheckRsaSign(publicKey string, hashedSource []byte, signature string) (bool
 	}
 
 	return true, nil
+}
+
+// 公钥加密
+func encrypt(publicKey string, source string) (string, error) {
+	publicKey = "-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----\n"
+
+	block, _ := pem.Decode([]byte(publicKey))
+	if block == nil {
+		return "", errors.New("failed to parse PEM block containing the public key")
+	}
+
+	pubKey, err := x509.ParsePKIXPublicKey(block.Bytes)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse public key: %w", err)
+	}
+
+	rsaPublicKey, ok := pubKey.(*rsa.PublicKey)
+	if !ok {
+		return "", errors.New("failed to convert public key to RSA public key")
+	}
+
+	ciphertext, err := rsa.EncryptPKCS1v15(rand.Reader, rsaPublicKey, []byte(source))
+	if err != nil {
+		return "", fmt.Errorf("encryption error: %w", err)
+	}
+
+	encryptedString := base64.StdEncoding.EncodeToString(ciphertext)
+	return encryptedString, nil
 }

@@ -2,6 +2,7 @@ package client
 
 import (
 	"LLP-ACCP-Go/main/accpapi/security"
+	"crypto/tls"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -22,12 +23,18 @@ func SendRequest(url, body string) string {
 	log.Printf("22请求签名值：%s\n", signature)
 	log.Printf("请求参数：%s\n", body)
 
-	client := http.Client{}
+	// 创建一个自定义的 HTTP 客户端，完全信任 SSL 证书
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	client := http.Client{Transport: tr}
 	req, err := http.NewRequest("POST", url, strings.NewReader(body))
 	if err != nil {
 		log.Fatal("创建请求失败：", err)
 	}
 
+	req.Proto = "HTTP/1.1"
 	req.Header.Set("Content-Type", "application/json;charset=utf-8")
 	req.Header.Set("Signature-Type", "RSA")
 	req.Header.Set("Signature-Data", signature)
