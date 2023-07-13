@@ -8,6 +8,9 @@ import (
 	"fmt"
 )
 
+/**
+ * 申请密码控件Token Demo
+ */
 func ApplyPasswordElement() string {
 	params := password.ApplyPasswordElementParams{}
 	timestamp := utils.GetTimestamp()

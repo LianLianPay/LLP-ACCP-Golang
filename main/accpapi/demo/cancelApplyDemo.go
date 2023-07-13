@@ -7,16 +7,19 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/acctmge/canncel"
 	"fmt"
-	"time"
 )
 
+/**
+ * 销户申请 Demo
+ */
 func CancelApply() string {
+	timestamp := utils.GetTimestamp()
 	params := canncel.CancelApplyParams{
-		Timestamp:  time.Now().Format("20060102150405"),
+		Timestamp:  utils.GetTimestamp(),
 		OidPartner: config.OidPartner,
 		UserID:     "LLianPayTest-Api-User-12345",
-		TxnSeqno:   "LLianPayTest" + time.Now().Format("20060102150405"),
-		TxnTime:    time.Now().Format("20060102150405"),
+		TxnSeqno:   "LLianPayTest" + timestamp,
+		TxnTime:    timestamp,
 		NotifyURL:  "https://test.lianlianpay/notify",
 		UserName:   "API开户测试",
 		IdType:     "ID_CARD",
