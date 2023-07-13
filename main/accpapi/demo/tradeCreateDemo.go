@@ -150,7 +150,7 @@ func securedConsume() txn.TradeCreateResult {
 	orderInfo.GoodsName = "西瓜"
 	params.OrderInfo = orderInfo
 	// 测试环境URL
-	url := "https://accpgw-ste.lianlianpay-inc.com/v1/acctmgr/apply-password-element"
+	url := "https://accpapi-ste.lianlianpay-inc.com/v1/txn/tradecreate"
 	paramsStr, err := utils.ObjectToString(params)
 	var tradeCreateResult txn.TradeCreateResult
 	if err != nil {

@@ -56,7 +56,7 @@ func phoneVerifyCodeApply(userId string) regphone.VerifyCodeResult {
 	params.RegPhone = ""
 
 	// 测试环境URL
-	url := "https://accpgw-ste.lianlianpay-inc.com/v1/acctmgr/apply-password-element"
+	url := "https://accpapi-ste.lianlianpay-inc.com/v1/acctmgr/regphone-verifycode-apply"
 	var verifyCodeResult regphone.VerifyCodeResult
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {
@@ -141,7 +141,7 @@ func OpenacctApply(userId string) individual.OpenacctApplyResult {
 	params.AccountInfo = accountInfo
 
 	// 测试环境URL
-	url := "https://accpgw-ste.lianlianpay-inc.com/v1/acctmgr/apply-password-element"
+	url := "https://accpapi-ste.lianlianpay-inc.com/v1/acctmgr/openacct-apply-individual"
 	var openacctApplyResult individual.OpenacctApplyResult
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {

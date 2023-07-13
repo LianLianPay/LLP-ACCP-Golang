@@ -30,7 +30,6 @@ func ApplyPasswordElement() string {
 
 	// 测试环境URL
 	url := "https://accpgw-ste.lianlianpay-inc.com/v1/acctmgr/apply-password-element"
-	//url = "http://localhost:8086/accpapi/v1/acctmgr/apply-password-element"
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {
 		fmt.Println("转换对象失败:", err)

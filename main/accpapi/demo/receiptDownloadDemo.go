@@ -25,7 +25,7 @@ func ReceiptDownload() {
 		ReceiptAccpTxno: "2022092116412310",
 	}
 	// 测试环境URL
-	url := "https://accpgw-ste.lianlianpay-inc.com/v1/acctmgr/apply-password-element"
+	url := "https://accpapi-ste.lianlianpay-inc.com/v1/offlinetxn/receipt-download"
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {
 		fmt.Println("转换对象失败:", err)
