@@ -13,14 +13,14 @@ import (
  * 用户开户申请(页面接入) Demo
  */
 func H5Openacct() {
-	enterprise()
+	enterprise1()
 	innerUser()
 }
 
 /**
  * 企业用户（页面）开户 Demo
  */
-func enterprise() string {
+func enterprise1() string {
 	params := webapge.OpenacctApplyParams{}
 	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp

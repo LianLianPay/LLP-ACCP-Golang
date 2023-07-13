@@ -6,72 +6,67 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/txn"
 	"fmt"
-	"strconv"
 )
 
 /**
- * 余额支付 Demo
+ * 银行卡快捷支付 Demo
  */
-func PaymentBalance() {
-	generalConsumePay()
-}
-
-/**
- * 普通消费场景的余额支付
- */
-func generalConsumePay() {
-	//调用统一支付创单接口进行创单
-	tradeCreateResult := generalConsume()
-	//使用余额方式完成支付
-	pay(tradeCreateResult)
-}
-
-/**
- * 普通消费场景的余额支付
- */
-func securedConsumePay() txn.TradeCreateResult {
-	tradeCreateResult := securedConsume()
-	pay(tradeCreateResult)
-	return tradeCreateResult
-}
-
-// 余额支付
-func pay(tradeCreateResult txn.TradeCreateResult) {
-	var params txn.PaymentBalanceParams
+func PaymentBankCard() string {
+	// 调用统一支付创单接口进行创单
+	tradeCreateResult := UserTopup()
+	// 使用银行卡快捷方式完成支付
+	params := txn.PaymentBankCardParams{}
 	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = tradeCreateResult.OidPartner
 	params.TxnSeqNo = tradeCreateResult.TxnSeqNo
 	params.TotalAmount = tradeCreateResult.TotalAmount
-	params.RiskItem = "{\"frms_ware_category\":\"4007\",\"goods_name\":\"测试商品\",\"user_info_mercht_userno\":\"" + tradeCreateResult.UserID + "\",\"user_info_dt_register\":\"20220823101239\",\"user_info_bind_phone\":\"13308123456\",\"user_info_full_name\":\"连连测试\",\"user_info_id_no\":\"123456789012345678\",\"user_info_identify_state\":\"0\",\"user_info_identify_type\":\"4\",\"user_info_id_type\":\"0\",\"frms_client_chnl\":\" 16\",\"frms_ip_addr\":\"127.0.0.1\",\"user_auth_flag\":\"1\"}"
+	params.RiskItem = `{"frmsWareCategory":"4007","goodsName":"西瓜","userInfoMerchtUserno":"LLianPayTest-In-User-12345","userInfoDtRegister":"20220823101239","userInfoBindPhone":"13208123456","userInfoFullName":"连连测试","userInfoIdNo":"","userInfoIdentifyState":"0","userInfoIdentifyType":"4","userInfoIdType":"0","frmsClientChnl":" H5","frmsIpAddr":"127.0.0.1","userAuthFlag":"1"}`
 
 	// 设置付款方信息
-	var payerInfo txn.PaymentPayerInfo
+	payerInfo := txn.PaymentPayerInfo{}
 	payerInfo.UserID = tradeCreateResult.UserID
 	// 用户：LLianPayTest-In-User-12345 密码：qwerty，本地测试环境测试，没接入密码控件，使用本地加密方法加密密码（仅限测试环境使用）
 	payerInfo.Password = security.LocalEncrypt("qwerty")
 	params.PayerInfo = payerInfo
+
+	// 设置付款银行卡信息
+	bankCardInfo := txn.PaymentBankCardInfo{}
+	// 使用该用户的绑卡协议号
+	bankCardInfo.LinkedAgrtno = "2022081900364011"
+	params.BankCardInfo = bankCardInfo
+
+	// 设置付款方式信息，支持组合支付，传入数组
+	payMethod := txn.PaymentBankCardPayMethods{}
+	// 协议支付借记卡
+	payMethod.Method = "AGRT_DEBIT_CARD"
+	payMethod.Amount = tradeCreateResult.TotalAmount
+	params.PayMethods = []txn.PaymentBankCardPayMethods{payMethod}
 	// 测试环境URL
-	url := "https://accpapi-ste.lianlianpay-inc.com/v1/txn/payment-balance"
+	url := "https://accpapi-ste.lianlianpay-inc.com/v1/txn/payment-bankcard"
 	paramsStr, err := utils.ObjectToString(params)
 	if err != nil {
 		fmt.Println("转换对象失败:", err)
-		return
+		return ""
 	}
 
 	//发送请求
 	resultJsonStr := client.SendRequest(url, paramsStr)
 
-	var bankCardResult txn.PaymentResult
+	var bankCardResult txn.PaymentBankCardResult
 	err = utils.StringToObject(resultJsonStr, bankCardResult)
 	if err != nil {
 		fmt.Println("反序列化失败:", err)
-		return
+		return ""
 	}
+
+	// 小额免验，不需要验证码，直接返回0000
 	if "0000" == bankCardResult.RetCode {
 		fmt.Println("支付成功！！！")
-		return
+		return ""
 	}
+	// 需要输入短信验证码，调用交易二次短信验证接口
+	// 用Debug模式，断点打到这里，Debug的时候把verifyCode设置成手机收到的真实验证码
 	verifyCode := ""
 	if "8888" == bankCardResult.RetCode {
 		validationSmsParams := txn.ValidationSmsParams{}
@@ -80,20 +75,21 @@ func pay(tradeCreateResult txn.TradeCreateResult) {
 		validationSmsParams.PayerID = bankCardResult.UserID
 		validationSmsParams.PayerType = "USER"
 		validationSmsParams.TxnSeqNo = bankCardResult.TxnSeqNo
-		validationSmsParams.TotalAmount = strconv.FormatFloat(bankCardResult.TotalAmount, 'f', -1, 64)
+		validationSmsParams.TotalAmount = fmt.Sprintf("", bankCardResult.TotalAmount)
 		validationSmsParams.Token = bankCardResult.Token
 		validationSmsParams.VerifyCode = verifyCode
+
 		// 测试环境URL
 		url := "https://accpapi-ste.lianlianpay-inc.com/v1/txn/validation-sms"
 		paramsStr, err := utils.ObjectToString(params)
 		if err != nil {
 			fmt.Println("转换对象失败:", err)
-			return
+			return ""
 		}
 
 		//发送请求
 		resultJsonStr := client.SendRequest(url, paramsStr)
-		fmt.Println(resultJsonStr)
-		return
+		return resultJsonStr
 	}
+	return ""
 }
