@@ -6,7 +6,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/txn"
 	"fmt"
-	"time"
 )
 
 func TradeCreate() {
@@ -127,7 +126,7 @@ func UserTopup() txn.TradeCreateResult {
  */
 func securedConsume() txn.TradeCreateResult {
 	params := txn.TradeCreateParams{}
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	// 普通消费

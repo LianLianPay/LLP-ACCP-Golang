@@ -5,7 +5,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/acctmge/query"
 	"fmt"
-	"time"
 )
 
 /**
@@ -13,7 +12,7 @@ import (
  */
 func QueryAcctserial() string {
 	params := query.AcctserialParams{}
-	timestamp := time.Now().Format("20060102150405") // 获取当前时间戳
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = "your_oid_partner"
 	params.UserID = "verify-code0ddfb801-8c34-45c4-854d-81834bc27deb"

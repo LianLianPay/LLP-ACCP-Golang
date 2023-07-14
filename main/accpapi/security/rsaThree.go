@@ -7,6 +7,11 @@ import (
 	"github.com/yuchenfw/gocrypt/rsa"
 )
 
+/*
+*
+该文件使用第三方开源库实现加签，经测试与手动实现的一致
+github链接: https://github.com/yuchenfw/gocrypt
+*/
 func Handle(source string) string {
 	secretInfo := rsa.RSASecret{
 		PublicKey:          config.LLianPayPublicKey,

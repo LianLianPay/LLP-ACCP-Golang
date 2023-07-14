@@ -6,7 +6,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/acctmge/webapge"
 	"fmt"
-	"time"
 )
 
 /**
@@ -81,7 +80,7 @@ func enterprise1() string {
  */
 func innerUser() string {
 	params := webapge.OpenacctApplyParams{}
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	params.UserID = "LLianPayTest-In-User-12345"

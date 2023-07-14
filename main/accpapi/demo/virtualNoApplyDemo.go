@@ -6,7 +6,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/acctmge/virtualno"
 	"fmt"
-	"time"
 )
 
 /**
@@ -14,7 +13,7 @@ import (
  */
 func VirtualNoApplyDemo() string {
 	params := virtualno.VirtualNoApplyParams{}
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	params.TxnSeqno = "LLianPayTest" + timestamp

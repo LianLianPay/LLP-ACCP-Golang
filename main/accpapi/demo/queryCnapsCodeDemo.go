@@ -5,7 +5,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/acctmge/cnapscode"
 	"fmt"
-	"time"
 )
 
 /**
@@ -13,7 +12,7 @@ import (
  */
 func QueryCnapsCode() string {
 	params := cnapscode.QueryParams{}
-	timestamp := time.Now().Format("20060102150405") // 获取当前时间戳
+	timestamp := utils.GetTimestamp()
 	params.OidPartner = "your_oid_partner"
 	params.Timestamp = timestamp
 	params.BankCode = "01030000"

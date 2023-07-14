@@ -10,6 +10,10 @@ import (
 	"strings"
 )
 
+/*
+*
+用于实现请求的发送
+*/
 func SendRequest(url, body string) string {
 	if url == "" {
 		panic("请求URL非法")

@@ -6,6 +6,7 @@ import (
 
 const defaultPattern = "20060102150405"
 
+// 获取当前时间戳
 func GetTimestamp() string {
 	return Format(time.Now(), defaultPattern)
 }

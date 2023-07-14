@@ -6,7 +6,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/cashier"
 	"fmt"
-	"time"
 )
 
 /**
@@ -24,7 +23,7 @@ func CashierPayCreate() {
 func userTopup() string {
 	params := cashier.CashierPayCreateParams{}
 
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	// 用户充值

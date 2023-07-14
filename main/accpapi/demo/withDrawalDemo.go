@@ -7,7 +7,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/txn"
 	"fmt"
-	"time"
 )
 
 /**
@@ -15,7 +14,7 @@ import (
  */
 func WithDrawal() string {
 	params := txn.WithDrawalParams{}
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	params.NotifyURL = "https://test.lianlianpay/notify"

@@ -5,7 +5,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/txn/secured"
 	"fmt"
-	"time"
 )
 
 /**
@@ -13,7 +12,7 @@ import (
  */
 func SecuredQuery() string {
 	params := secured.SecuredQueryParams{}
-	params.Timestamp = time.Now().Format("20060102150405") // 获取当前时间戳
+	params.Timestamp = utils.GetTimestamp()
 	params.OidPartner = "your_oid_partner"
 	params.TxnSeqNo = "202302071352032021805645"
 	// 测试环境URL

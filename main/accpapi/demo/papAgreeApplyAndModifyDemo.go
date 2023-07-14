@@ -6,7 +6,6 @@ import (
 	"LLP-ACCP-Go/main/accpapi/utils"
 	"LLP-ACCP-Go/main/accpapi/v1/txn"
 	"fmt"
-	"time"
 )
 
 /**
@@ -62,7 +61,7 @@ func apply() string {
 func modify() string {
 	params := txn.PapAgreeApplyAndModifyParams{}
 
-	timestamp := time.Now().Format("20060102150405")
+	timestamp := utils.GetTimestamp()
 	params.Timestamp = timestamp
 	params.OidPartner = config.OidPartner
 	params.TxnSeqNo = fmt.Sprintf("LLianPayTest%s", timestamp)

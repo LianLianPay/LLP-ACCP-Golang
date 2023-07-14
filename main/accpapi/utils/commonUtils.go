@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// 序列化
 func ObjectToString(obj interface{}) (string, error) {
 	jsonBytes, err := json.Marshal(obj)
 	if err != nil {
@@ -15,6 +16,7 @@ func ObjectToString(obj interface{}) (string, error) {
 	return jsonString, nil
 }
 
+// 反序列化
 func StringToObject(jsonString string, obj interface{}) error {
 	err := json.Unmarshal([]byte(jsonString), obj)
 	if err != nil {

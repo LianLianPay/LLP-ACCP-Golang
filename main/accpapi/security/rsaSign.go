@@ -12,6 +12,10 @@ import (
 	"fmt"
 )
 
+/**
+该文件为手动实现 加签验签
+*/
+
 // 签名处理
 func RsaSign(privateKey string, hashedSource []byte) (string, error) {
 	privateKey = "-----BEGIN PRIVATE KEY-----\n" + privateKey + "\n-----END PRIVATE KEY-----"
